@@ -3,8 +3,8 @@
 ###### This project spans various aspects of Linux system administration, including file management, user and group management, service control, process handling, and more. You will be completing tasks that simulate real-world scenarios, providing hands-on experience with Linux commands and configurations.
 
 ### Project Breakdown
---- Creating and Editing Text Files
-Scenario: You are tasked with documenting the configurations and settings for a new server.
+#### Creating and Editing Text Files
+Scenario: We are tasked with documenting the configurations and settings for a new server.
 
 #### Using Nano
 Create a file server_config.txt using Nano:
@@ -129,15 +129,15 @@ sudo systemctl start apache2
 ```
 ***
 
-##### Stop the Apache service:
-```bash
-sudo systemctl stop apache2
-```
-***
-
 ##### Enable the Apache service to start on boot:
 ```bash
 sudo systemctl enable apache2
+```
+***
+
+##### Stop the apache2 service
+```bash
+sudo systemctl stop apache2
 ```
 ***
 
@@ -335,7 +335,7 @@ sudo nano /etc/apache2/sites-available/mystaticwebsite.conf
 ```
 
 Add the following content:
-```
+```js
 <VirtualHost *:80>
   ServerAdmin webmaster@localhost
   DocumentRoot /var/www/html/mystaticwebsite
@@ -366,8 +366,10 @@ sudo systemctl reload apache2
 ```
 ***
 
-#### Test the Configuration
+### Test the Configuration
 
 Open a web browser and navigate to http://your_server_ip. We can see the static website with the HTML, CSS, JS, and image.
-![alt text](5.png)
 
+---
+![alt text](5.png)
+---
