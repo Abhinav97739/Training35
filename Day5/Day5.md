@@ -392,5 +392,3 @@ volumes:
 docker-compose up -d
 ```
 ![alt text](9.png)
-## Use a Single Shared Volume Across Multiple Containers
-Update docker-compose.yml as shown above to use the shareddata volume across the frontend and backend services.
