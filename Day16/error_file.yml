@@ -1,0 +1,52 @@
+---
+- name: Error Handling Playbook
+  hosts: all
+  become: yes
+   tasks:
+    - name: Ensure error logging directory exists
+      file:
+        path: /tmp
+        state: directory
+
+    - name: Run tasks with error handling
+      block:
+        - name: Start a non-existent service
+          service:
+            name: non_existent_service
+            state: started
+          register: result_service
+          ignore_errors: yes  # Ignore errors to proceed to the rescue block
+
+        - name: Access a non-existent file
+          command: cat /path/to/non_existent_file
+          register: result_file
+          ignore_errors: yes  # Ignore errors to proceed to the rescue block
+
+      rescue:
+        - name: Log errors to a file
+          copy:
+            content: |
+              An error occurred during playbook execution:
+              Service Task Result: {{ result_service | default('No result') }}
+              File Task Result: {{ result_file | default('No result') }}
+            dest: "{{ log_file }}"
+            mode: '0644'
+
+        - name: Send error notification via email
+          mail:
+            host: smtp.example.com
+            port: 25
+            to: "{{ admin_email }}"
+            subject: "Ansible Playbook Error Notification"
+            body: |
+              An error occurred during the execution of the Ansible playbook.
+              Please check the attached log file for details.
+            attach:
+              - "{{ log_file }}"
+
+      always:
+        - name: Clean up log file if it exists
+          file:
+            path: "{{ log_file }}"
+            state: absent
+            when: result_file is failed or result_service is failed
