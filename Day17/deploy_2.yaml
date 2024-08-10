@@ -1,0 +1,166 @@
+---
+- name: Setup MySQL with medium_db and remote login
+  hosts: all
+  become: yes
+  vars:
+    db_user: "backup_user"           # MySQL user for backup
+    db_pass: "backup_password"       # Password for MySQL user
+    db_name: "medium_db"             # Name of the database to create
+    backup_dir: "/var/backups/mysql" # Directory to store backups
+    backup_cron_time: "0 2 * * *"    # Cron schedule for daily backup at 2 AM
+
+  tasks:
+    - name: Install MySQL and dependencies
+      package:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      loop:
+        - mysql-server---
+- name: Setup MySQL with medium_db and remote login
+  hosts: all
+  become: yes
+  vars:
+    db_user: "backup_user"           # MySQL user for backup
+    db_pass: "backup_password"       # Password for MySQL user
+    db_name: "medium_db"             # Name of the database to create
+    backup_dir: "/var/backups/mysql" # Directory to store backups
+    backup_cron_time: "0 2 * * *"    # Cron schedule for daily backup at 2 AM
+
+  tasks:
+    - name: Install MySQL and dependencies
+      package:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      loop:
+        - mysql-server
+        - mysql-client
+        - python3-mysqldb
+        - libmysqlclient-dev
+
+    - name: Start and enable MySQL service
+      service:
+        name: mysql
+        state: started
+        enabled: yes
+
+    - name: Create MySQL user 
+      mysql_user:
+        name: "{{ db_user }}"
+        password: "{{ db_pass }}"
+        priv: '*.*:ALL'
+        host: '%'
+        state: present
+
+    - name: Create database
+      mysql_db:
+        name: "{{ db_name }}"
+        state: present
+
+    - name: Enable remote login to MySQL
+      lineinfile:
+        path: /etc/mysql/mysql.conf.d/mysqld.cnf
+        regexp: '^bind-address'
+        line: 'bind-address = 0.0.0.0'
+        backup: yes
+      notify:
+        - Restart MySQL
+
+    - name: Create backup directory
+      file:
+        path: "{{ backup_dir }}"
+        state: directory
+        mode: '0755'
+
+    - name: Create backup script
+      copy:
+        dest: /usr/local/bin/mysql_backup.sh
+        content: |
+          #!/bin/bash
+          TIMESTAMP=$(date +"%F")
+          BACKUP_FILE="{{ backup_dir }}/{{ db_name }}_$TIMESTAMP.sql"
+          mysqldump -u{{ db_user }} -p{{ db_pass }} {{ db_name }} > "$BACKUP_FILE"
+        mode: '0755'
+
+    - name: Set up cron job for backups
+      cron:
+        name: "MySQL daily backup"
+        minute: "{{ backup_cron_time.split()[0] }}"
+        hour: "{{ backup_cron_time.split()[1] }}"
+        day: "{{ backup_cron_time.split()[2] }}"
+        month: "{{ backup_cron_time.split()[3] }}"
+        weekday: "{{ backup_cron_time.split()[4] }}"
+        job: "/usr/local/bin/mysql_backup.sh"
+        state: present
+
+  handlers:
+    - name: Restart MySQL
+      service:
+        name: mysql
+        state: restarted
+
+        - mysql-client
+        - python3-mysqldb
+        - libmysqlclient-dev
+
+    - name: Start and enable MySQL service
+      service:
+        name: mysql
+        state: started
+        enabled: yes
+
+    - name: Create MySQL user 
+      mysql_user:
+        name: "{{ db_user }}"
+        password: "{{ db_pass }}"
+        priv: '*.*:ALL'
+        host: '%'
+        state: present
+
+    - name: Create database
+      mysql_db:
+        name: "{{ db_name }}"
+        state: present
+
+    - name: Enable remote login to MySQL
+      lineinfile:
+        path: /etc/mysql/mysql.conf.d/mysqld.cnf
+        regexp: '^bind-address'
+        line: 'bind-address = 0.0.0.0'
+        backup: yes
+      notify:
+        - Restart MySQL
+
+    - name: Create backup directory
+      file:
+        path: "{{ backup_dir }}"
+        state: directory
+        mode: '0755'
+
+    - name: Create backup script
+      copy:
+        dest: /usr/local/bin/mysql_backup.sh
+        content: |
+          #!/bin/bash
+          TIMESTAMP=$(date +"%F")
+          BACKUP_FILE="{{ backup_dir }}/{{ db_name }}_$TIMESTAMP.sql"
+          mysqldump -u{{ db_user }} -p{{ db_pass }} {{ db_name }} > "$BACKUP_FILE"
+        mode: '0755'
+
+    - name: Set up cron job for backups
+      cron:
+        name: "MySQL daily backup"
+        minute: "{{ backup_cron_time.split()[0] }}"
+        hour: "{{ backup_cron_time.split()[1] }}"
+        day: "{{ backup_cron_time.split()[2] }}"
+        month: "{{ backup_cron_time.split()[3] }}"
+        weekday: "{{ backup_cron_time.split()[4] }}"
+        job: "/usr/local/bin/mysql_backup.sh"
+        state: present
+
+  handlers:
+    - name: Restart MySQL
+      service:
+        name: mysql
+        state: restarted

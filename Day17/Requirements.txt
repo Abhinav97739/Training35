@@ -1,0 +1,5 @@
+Dependencies for MySQL configuration
+- mysql-server
+- mysql-client
+- python3-mysqldb
+- libmysqlclient-dev

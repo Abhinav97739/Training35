@@ -1,0 +1,48 @@
+- name: Setup MySQL with medium_db and remote login
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install MySQL and dependencies
+      package:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      loop:
+        - mysql-server
+        - mysql-client
+        - python3-mysqldb
+        - libmysqlclient-dev
+
+    - name: Start and enable MySQL service
+      service:
+        name: mysql
+        state: started
+        enabled: yes
+
+    - name: Create MySQL user 
+      mysql_user:
+        name: "{{ db_user }}"
+        password: "{{ db_pass }}"
+        priv: '*.*:ALL'
+        host: '%'
+        state: present
+
+    - name: Create db
+      mysql_db:
+        name: "{{ db_name }}"
+        state: present
+
+    - name: Enable remote login to MySQL
+      lineinfile:
+        path: /etc/mysql/mysql.conf.d/mysqld.cnf
+        regexp: '^bind-address'
+        line: 'bind-address = 0.0.0.0'
+        backup: yes
+      notify:
+        - Restart MySQL
+
+  handlers:
+    - name: Restart MySQL
+      service:
+        name: mysql
+        state: restarted

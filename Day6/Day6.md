@@ -136,6 +136,7 @@ docker run -p 3000:3000 nodejs-k8s-app
 - Start Minikube:
 
 minikube start
+![alt text](1.png)
 
 
 ### Create Kubernetes Deployment and Service Manifests
@@ -161,7 +162,7 @@ spec:
         ports:
         - containerPort: 3000
 ```
-
+![alt text](<deployment .png>)
 - Create a service.yaml file for ClusterIP:
 ```yaml
 apiVersion: v1
@@ -177,7 +178,7 @@ spec:
     targetPort: 3000
   type: ClusterIP
 ```
-
+![alt text](service.png)
 - Create a service-nodeport.yaml file for NodePort:
 ```yaml
 apiVersion: v1
@@ -209,7 +210,7 @@ kubectl apply -f service.yaml
 kubectl apply -f service-nodeport.yaml
 ```
 ### Access the Application
-
+![alt text](apply.png)
 Get the Minikube IP:
 ```bash
 minikube ip
@@ -219,15 +220,18 @@ Access the application using the NodePort:
 
 curl http://<minikube-ip>:30001
 Making Changes to the App and Redeploying Using Kubernetes
-6. Making Changes to the Node.js Application
-6.1. Create a New Branch for Changes
-Create and switch to a new branch feature/update-message:
 
+- Making Changes to the Node.js Application
+### 6.1. Create a New Branch for Changes
+
+- Create and switch to a new branch feature/update-message:
+```bash
 git checkout -b feature/update-message
+```
 
-6.2. Update the Application
+### Update the Application
 Modify index.js to change the message:
-
+```js
 const express = require('express');
 const app = express();
 const port = 3000;
@@ -243,36 +247,39 @@ app.get('/newroute', (req, res) => {
 app.listen(port, () => {
     console.log(`App running at http://localhost:${port}`);
 });
+```
 
-6.3. Commit the Changes
+### Commit the Changes
 Add and commit the changes:
-
+```bash
 git add .
 git commit -m "Update main route message"
+```
 
-7. Merge the Changes and Rebuild the Docker Image
+### Merge the Changes and Rebuild the Docker Image
 7.1. Merge the Feature Branch
+
 Switch back to the main branch:
-
+```bash
 git checkout main
-
+```
 Merge the feature/update-message branch:
-
+```bash
 git merge --ff-only feature/update-message
-
+```
 Delete the feature branch:
-
+```bash
 git branch -d feature/update-message
-
-7.2. Rebuild the Docker Image
+```
+### Rebuild the Docker Image
 Rebuild the Docker image with a new tag:
-
+```bash
 docker build -t nodejs-k8s-app:v2 .
-
-8. Update Kubernetes Deployment
-8.1. Update the Deployment Manifest
+```
+### Update Kubernetes Deployment
+- Update the Deployment Manifest
 Modify deployment.yaml to use the new image version:
-
+```bash
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -292,28 +299,32 @@ spec:
         image: nodejs-k8s-app:v2
         ports:
         - containerPort: 3000
+```
+### Apply the Updated Manifest
 
-8.2. Apply the Updated Manifest
 Apply the updated deployment:
-
+```bash
 kubectl apply -f deployment.yaml
+```
 
-8.3. Verify the Update
+### Verify the Update
 Check the status of the deployment:
-
+```bash
 kubectl rollout status deployment/nodejs-app
+```
 
-9. Access the Updated Application
-9.1. Access Through ClusterIP Service
+### Access the Updated Application
+- Access Through ClusterIP Service
 Forward the port to access the ClusterIP service:
-
+```bash
 kubectl port-forward service/nodejs-service 8080:80
+
 Open your browser and navigate to http://localhost:8080 to see the updated message.
-9.2. Access Through NodePort Service
+- Access Through NodePort Service
 Access the application using the NodePort:
-
+```bash
 curl http://<minikube-ip>:30001
-
+```
 
 Project 02 
 Deploying a Python Flask App Using Minikube Kubernetes
