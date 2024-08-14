@@ -1,0 +1,6 @@
+logs are shown below :-
+Aug 14 10:59:01 AHMLPT2616 teams-for-linux_teams-for-linux.desktop[349510]: [DEBUG] GetSystemIdleState => IdleTimeout: 300s, IdleTimeoutPollInterval: 10s, ActiveCheckPollInterval: 2s, IdleTime: 0s, IdleState: 'active'
+Aug 14 10:59:11 AHMLPT2616 teams-for-linux_teams-for-linux.desktop[349510]: [DEBUG] GetSystemIdleState => IdleTimeout: 300s, IdleTimeoutPollInterval: 10s, ActiveCheckPollInterval: 2s, IdleTime: 0s, IdleState: 'active'
+Aug 14 10:59:21 AHMLPT2616 teams-for-linux_teams-for-linux.desktop[349510]: [DEBUG] GetSystemIdleState => IdleTimeout: 300s, IdleTimeoutPollInterval: 10s, ActiveCheckPollInterval: 2s, IdleTime: 1s, IdleState: 'active'
+Aug 14 10:59:31 AHMLPT2616 teams-for-linux_teams-for-linux.desktop[349510]: [DEBUG] GetSystemIdleState => IdleTimeout: 300s, IdleTimeoutPollInterval: 10s, ActiveCheckPollInterval: 2s, IdleTime: 0s, IdleState: 'active'
+

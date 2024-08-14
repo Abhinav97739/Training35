@@ -1,0 +1,48 @@
+-------------------------------------------------------------------------------
+Check disk usage
+-------------------------------------------------------------------------------
+Filesystem      Size  Used Avail Use% Mounted on
+udev            7.7G     0  7.7G   0% /dev
+tmpfs           1.6G  2.4M  1.6G   1% /run
+/dev/nvme0n1p1   94G   37G   53G  41% /
+tmpfs           7.7G   42M  7.7G   1% /dev/shm
+tmpfs           5.0M  4.0K  5.0M   1% /run/lock
+tmpfs           7.7G     0  7.7G   0% /sys/fs/cgroup
+/dev/loop0      128K  128K     0 100% /snap/bare/5
+/dev/loop3       64M   64M     0 100% /snap/core20/2318
+/dev/loop2      105M  105M     0 100% /snap/core/17200
+/dev/loop4      104M  104M     0 100% /snap/core/16928
+/dev/loop5      1.9M  1.9M     0 100% /snap/btop/798
+/dev/loop12      88M   88M     0 100% /snap/teams-for-linux/649
+/dev/loop11     4.3M  4.3M     0 100% /snap/tree/18
+/dev/loop10     506M  506M     0 100% /snap/gnome-42-2204/176
+/dev/loop13      39M   39M     0 100% /snap/snapd/21465
+/dev/loop16      39M   39M     0 100% /snap/snapd/21759
+/dev/loop8       92M   92M     0 100% /snap/gtk-common-themes/1535
+/dev/loop7       56M   56M     0 100% /snap/core18/2829
+/dev/loop6       75M   75M     0 100% /snap/core22/1439
+/dev/loop14     165M  165M     0 100% /snap/gnome-3-28-1804/198
+/dev/loop15      88M   88M     0 100% /snap/teams-for-linux/645
+/dev/loop22      67M   67M     0 100% /snap/core24/423
+/dev/loop21      75M   75M     0 100% /snap/core22/1380
+/dev/loop9       84M   84M     0 100% /snap/outlook-for-linux/18
+/dev/loop17      64M   64M     0 100% /snap/core20/2264
+/dev/loop23      56M   56M     0 100% /snap/core18/2823
+/dev/loop19      13M   13M     0 100% /snap/snap-store/1113
+/dev/loop18     350M  350M     0 100% /snap/gnome-3-38-2004/143
+/dev/loop20     347M  347M     0 100% /snap/gnome-3-38-2004/115
+/dev/nvme0n1p3  976M   59M  917M   6% /boot/efi
+/dev/nvme0n1p4  359G   30G  312G   9% /home
+tmpfs           1.6G  128K  1.6G   1% /run/user/1000
+/dev/loop24     1.9M  1.9M     0 100% /snap/btop/800
+/dev/loop1      141M  141M     0 100% /snap/termius-app/199
+-------------------------------------------------------------------------------
+Check memory usage
+-------------------------------------------------------------------------------
+              total        used        free      shared  buff/cache   available
+Mem:           15Gi       7.5Gi       834Mi       828Mi       7.0Gi       6.7Gi
+Swap:          14Gi       181Mi        14Gi
+-------------------------------------------------------------------------------
+Check CPU load
+-------------------------------------------------------------------------------
+%Cpu(s):  2.6 us,  6.6 sy,  0.0 ni, 90.8 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
